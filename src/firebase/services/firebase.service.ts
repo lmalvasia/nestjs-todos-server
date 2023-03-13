@@ -7,7 +7,6 @@ export class FirebaseService {
   private firebaseService: firebase.app.App;
 
   constructor(private readonly configService: ConfigService) {
-    console.log(this.configService.get('FIREBASE_PROJECT_ID'));
     this.firebaseService = firebase.initializeApp({
       credential: firebase.credential.cert({
         projectId: this.configService.get('FIREBASE_PROJECT_ID'),

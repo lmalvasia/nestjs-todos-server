@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { TodoDto } from '../dto/todo.dto';
 import { TodoService } from '../services/todo.service';
-import { AuthGuard } from 'src/firebase/auth.guard';
+import { AuthGuard } from '../../firebase/auth.guard';
 
 @Controller('todos')
 @UseGuards(AuthGuard)

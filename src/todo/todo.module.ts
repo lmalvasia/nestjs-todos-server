@@ -3,7 +3,7 @@ import { TodoService } from './services/todo.service';
 import { TodoController } from './controllers/todo.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Todo, TodoSchema } from './schemas/todo.schema';
-import { FirebaseModule } from 'src/firebase/firebase.module';
+import { FirebaseModule } from '../firebase/firebase.module';
 
 @Module({
   providers: [TodoService],
