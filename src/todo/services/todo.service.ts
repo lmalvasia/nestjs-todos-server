@@ -10,29 +10,57 @@ export class TodoService {
     @InjectModel(Todo.name) private readonly model: Model<TodoDocument>,
   ) {}
 
-  async findAll(showDeleted: boolean): Promise<Todo[]> {
+  async findAll(showDeleted: boolean, userId: string): Promise<Todo[]> {
     return await this.model
-      .find(showDeleted ? {} : { isDeleted: false })
+      .find(
+        showDeleted
+          ? {
+              userId,
+            }
+          : { isDeleted: false, userId },
+      )
       .exec();
   }
 
-  async findOne(id: string): Promise<Todo> {
-    return await this.model.findById(id).exec();
-  }
-
-  async create(todoDto: TodoDto): Promise<Todo> {
-    return await new this.model(todoDto).save();
-  }
-
-  async update(id: string, todoDto: TodoDto): Promise<Todo> {
-    return await this.model.findByIdAndUpdate(id, todoDto).exec();
-  }
-
-  async delete(id: string): Promise<Todo> {
+  async findOne(id: string, userId: string): Promise<Todo> {
     return await this.model
-      .findByIdAndUpdate(id, {
-        isDeleted: true,
+      .findOne({
+        id,
+        userId,
       })
+      .exec();
+  }
+
+  async create(todoDto: TodoDto, userId: string): Promise<Todo> {
+    return await new this.model({
+      ...todoDto,
+      userId,
+    }).save();
+  }
+
+  async update(id: string, todoDto: TodoDto, userId: string): Promise<Todo> {
+    return await this.model
+      .findOneAndUpdate(
+        {
+          id,
+          userId,
+        },
+        todoDto,
+      )
+      .exec();
+  }
+
+  async delete(id: string, userId: string): Promise<Todo> {
+    return await this.model
+      .findOneAndUpdate(
+        {
+          id,
+          userId,
+        },
+        {
+          isDeleted: true,
+        },
+      )
       .exec();
   }
 }
